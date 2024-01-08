@@ -1,0 +1,3 @@
+function block() {
+    return true
+}

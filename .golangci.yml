@@ -1,0 +1,44 @@
+linters:
+  enable-all: true
+  fast: false
+  disable:
+    # deprecated
+    - scopelint
+    - varcheck
+    - exhaustivestruct
+    - ifshort
+    - structcheck
+    - deadcode
+    - nosnakecase
+    - maligned
+    - golint
+    - interfacer
+    # disabled
+    - wrapcheck
+
+
+linters-settings:
+  depguard:
+    rules:
+      prevent_unmaintained_packages:
+        files:
+          - $all
+          - "!$test"
+        allow:
+          - $gostd
+          - github.com/google/shlex
+          - github.com/yuin/goldmark
+          - github.com/yuin/goldmark/ast
+          - github.com/yuin/goldmark/text
+          - github.com/rodaine/table
+          - github.com/spf13/cobra
+          - github.com/gobwas/glob
+          - github.com/liamg/memoryfs
+          - github.com/szkiba/mdcode/internal
+        deny:
+          - pkg: io/ioutil
+            desc: "replaced by io and os packages since Go 1.16: https://tip.golang.org/doc/go1.16#ioutil"
+
+run:
+  skip-dirs:
+    - "examples"
