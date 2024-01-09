@@ -78,7 +78,7 @@ This document also contains the code required for testing in invisible code bloc
 
 Code blocks embedded in this document can be saved to files using the [`mdcode extract`](#mdcode-extract) command. A `README_test.go` and a `README.test.js` file will be created in the current directory. After modification, the code blocks can be updated from these files to the document using the [`mdcode update`](#mdcode-update) command.
 
-More examples can be found in the [examples](examples/) directory.
+More examples can be found in the [examples](examples/) directory and in the [tutorial](docs/testable-markdown-code-blocks.md).
 
 ### Features
 

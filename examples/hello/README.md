@@ -8,20 +8,20 @@ If you look at the [source of this document](https://github.com/szkiba/mdcode/bl
 
 **JavaScript**
 ```js file=hello.js
-console.log("Hello, Testable World!");
+console.log("Hello, Testable World!")
 ```
 
 <!--<script type="text/markdown">
 ```js file=hello.test.js
-const assert = require("node:assert");
-const test = require("node:test");
+const assert = require("node:assert")
+const test = require("node:test")
 
 test("hello", (t) => {
     console.log = function (message) {
-        assert.equal(message, "Hello, Testable World!");
-    };
-    require("./hello.js");
-});
+        assert.equal(message, "Hello, Testable World!")
+    }
+    require("./hello.js")
+})
 ```
 </script>-->
 
