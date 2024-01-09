@@ -74,7 +74,7 @@ function factorial(n) {
 
 At first glance, there is nothing special about this. *However, these code blocks are testable!* 
 
-This document also contains the code required for testing in invisible code blocks. If you look at the [source of this document](https://github.com/szkiba/mdcode/blob/master/README.md?plain=1), you can see how easy it is to embed code blocks (even invisibly) using `mdcode`.
+This document includes the necessary code for testing within invisible code blocks. By examining the [source of this document](https://github.com/szkiba/mdcode/blob/master/README.md?plain=1), you can observe how effortlessly code blocks, even invisible ones, can be embedded using `mdcode`.
 
 Code blocks embedded in this document can be saved to files using the [`mdcode extract`](#mdcode-extract) command. A `README_test.go` and a `README.test.js` file will be created in the current directory. After modification, the code blocks can be updated from these files to the document using the [`mdcode update`](#mdcode-update) command.
 
@@ -88,7 +88,7 @@ More examples can be found in the [examples](examples/) directory and in the [tu
 - supports source file fragments using `#region` comments
 - supports invisible (not rendered) code blocks
 - allows you to add metadata to code blocks
-- supports any programming language
+- programming language agnostic
 - dump code blocks as tar archive
 
 ### Use Cases
@@ -99,7 +99,7 @@ More examples can be found in the [examples](examples/) directory and in the [tu
   - integrate example code testing into the build process
   - use [`mdcode update`](#mdcode-update) to update example code in markdown documents
 
-**Write example code directly in the markdown documemts**
+**Write example code directly in the markdown documents**
   - use [`mdcode extract`](#mdcode-extract) to extract code blocks and save them to files
   - use any test framework for testing
   - integrate example code testing into the build process
@@ -169,7 +169,7 @@ The only mandatory metadata is `file`.
 ### Filtering
 
 <!-- #region filtering -->
-By default, `mdcode` work with all code blocks in a markdown document. It is possible to filter code blocks based on programming language or metadata. In this case, `mdcode` ignore code blocks that do not meet the filter criteria.
+By default, `mdcode` work with all code blocks in a markdown document. It is possible to filter code blocks based on programming language or metadata. In this case, `mdcode` ignores code blocks that do not meet the filter criteria.
 
 A language filter pattern can be specified using the `--lang` flag. Then only code blocks with a language matching the pattern will be processed. For example, filtering for code blocks containing JavaScript code:
 
@@ -239,11 +239,11 @@ Or if only block comments can be used (CSS):
 
     /* #endregion */
 
-Regions marked in this way are used by IDEs to collapse parts of the source code.
+Regions marked this way are used by IDEs to collapse parts of the source code.
 
 In the case of `mdcode`, regions can be referenced with the `region` metadata. If a region is specified for a code block, the subcommand (update or extract) applies only to the specified region of the file. That is, the update command only embeds the specified region from the file to the markdown document, and the extract command overwrites only the specified region in the file.
 
-`mdcode` can handle regions in any programming language, the only requirement is that the comment indicating the beginning and end of the region is placed in a separate line containing only the given comment.
+`mdcode` can handle regions in any programming language, the only requirement is that the comments indicating the beginning and end of the region are placed in separate lines containing only the given comment.
 <!-- #endregion regions -->
 
 ### Invisible
@@ -358,7 +358,7 @@ go tool cover -html=build/coverage.txt
 
 Build the executable binary.
 
-This is the easiest way to create an executable binary (although the release process uses the goreleaser tool to create released versions).
+This is the easiest way to create an executable binary (although the release process uses the goreleaser tool to create release versions).
 
 ```
 go build -ldflags="-w -s" -o build/mdcode .

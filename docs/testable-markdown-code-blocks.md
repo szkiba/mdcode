@@ -55,7 +55,7 @@ test("hello", (t) => {
 })
 ```
 
-This test code can be embedded in the markdown document invisibly:
+This test code can be embedded without being visible in the markdown document:
 
 ~~~
 <!--<script type="text/markdown">
