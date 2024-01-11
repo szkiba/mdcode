@@ -17,7 +17,7 @@ var updateHelp string
 
 func updateCmd(opts *options) *cobra.Command {
 	cmd := &cobra.Command{ //nolint:exhaustruct
-		Use:     "update [filename]",
+		Use:     "update [flags] [filename]",
 		Aliases: []string{"u"},
 		Short:   "Update markdown code blocks from the file system",
 		Long:    updateHelp,

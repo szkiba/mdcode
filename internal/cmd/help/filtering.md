@@ -1,4 +1,4 @@
-By default, `mdcode` work with all code blocks in a markdown document. It is possible to filter code blocks based on programming language or metadata. In this case, `mdcode` ignore code blocks that do not meet the filter criteria.
+By default, `mdcode` work with all code blocks in a markdown document. It is possible to filter code blocks based on programming language or metadata. In this case, `mdcode` ignores code blocks that do not meet the filter criteria.
 
 A language filter pattern can be specified using the `--lang` flag. Then only code blocks with a language matching the pattern will be processed. For example, filtering for code blocks containing JavaScript code:
 

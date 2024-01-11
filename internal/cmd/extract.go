@@ -18,7 +18,7 @@ var extractHelp string
 
 func extractCmd(opts *options) *cobra.Command {
 	cmd := &cobra.Command{ //nolint:exhaustruct
-		Use:     "extract [filename]",
+		Use:     "extract [flags] [filename]",
 		Aliases: []string{"x"},
 		Short:   "Extract markdown code blocks to the file system",
 		Long:    extractHelp,
