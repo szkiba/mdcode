@@ -10,6 +10,7 @@ const (
 	metaFile    = "file"
 	metaRegion  = "region"
 	metaOutline = "outline"
+	metaName    = "name"
 )
 
 type statusFunc func(format string, args ...any)
@@ -17,6 +18,7 @@ type statusFunc func(format string, args ...any)
 type options struct {
 	lang []string
 	file []string
+	name string
 	meta map[string]string
 
 	dir string
@@ -25,6 +27,7 @@ type options struct {
 	json bool
 
 	quiet bool
+	keep  bool
 
 	filter filterFunc
 	status statusFunc

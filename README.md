@@ -78,6 +78,19 @@ This document includes the necessary code for testing within invisible code bloc
 
 Code blocks embedded in this document can be saved to files using the [`mdcode extract`](#mdcode-extract) command. A `README_test.go` and a `README.test.js` file will be created in the current directory. After modification, the code blocks can be updated from these files to the document using the [`mdcode update`](#mdcode-update) command.
 
+After the modification, it is advisable to test the above examples using the following commands:
+
+```sh name=test
+go test ./...
+node --test
+```
+
+Since the above code block has a name (`test`), it can also be run with the [`mdcode run`](#mdcode-run) command:
+
+```
+mdcode run -n test
+```
+
 More examples can be found in the [examples](examples/) directory and in the [tutorial](docs/testable-markdown-code-blocks.md).
 
 ### Features
@@ -239,11 +252,11 @@ Or if only block comments can be used (CSS):
 
     /* #endregion */
 
-Regions marked this way are used by IDEs to collapse parts of the source code.
+Regions marked in this way are used by IDEs to collapse parts of the source code.
 
 In the case of `mdcode`, regions can be referenced with the `region` metadata. If a region is specified for a code block, the subcommand (update or extract) applies only to the specified region of the file. That is, the update command only embeds the specified region from the file to the markdown document, and the extract command overwrites only the specified region in the file.
 
-`mdcode` can handle regions in any programming language, the only requirement is that the comments indicating the beginning and end of the region are placed in separate lines containing only the given comment.
+`mdcode` can handle regions in any programming language, the only requirement is that the comment indicating the beginning and end of the region is placed in a separate line containing only the given comment.
 <!-- #endregion regions -->
 
 ### Invisible
@@ -435,7 +448,7 @@ The optional argument of the `mdcode` command is the name of the markdown file. 
 
 
 ```
-mdcode [filename] [flags]
+mdcode [flags] [filename]
 ```
 
 ### Flags
@@ -453,6 +466,7 @@ mdcode [filename] [flags]
 
 * [mdcode dump](#mdcode-dump)	 - Dump markdown code blocks
 * [mdcode extract](#mdcode-extract)	 - Extract markdown code blocks to the file system
+* [mdcode run](#mdcode-run)	 - Run shell commands on markdown code blocks
 * [mdcode update](#mdcode-update)	 - Update markdown code blocks from the file system
 
 ---
@@ -472,7 +486,7 @@ The optional argument of the `mdcode dump` command is the name of the markdown f
 
 
 ```
-mdcode dump [filename] [flags]
+mdcode dump  [flags] [filename]
 ```
 
 ### Flags
@@ -513,7 +527,7 @@ The optional argument of the `mdcode extract` command is the name of the markdow
 
 
 ```
-mdcode extract [filename] [flags]
+mdcode extract [flags] [filename]
 ```
 
 ### Flags
@@ -522,6 +536,54 @@ mdcode extract [filename] [flags]
   -d, --dir string   base directory name (default ".")
   -h, --help         help for extract
   -q, --quiet        suppress the status output
+```
+
+### Global Flags
+
+```
+  -f, --file strings          file filter (default [?*])
+  -l, --lang strings          language filter (default [?*])
+  -m, --meta stringToString   metadata filter (default [])
+```
+
+### SEE ALSO
+
+* [mdcode](#mdcode)	 - Markdown code block authoring tool
+
+---
+## mdcode run
+
+Run shell commands on markdown code blocks
+
+### Synopsis
+
+Extract code blocks to the file system and run shell commands on them
+
+The code blocks are written to the file named in the `file` metadata.
+
+The code block may include `region` metadata, which contains the name of the region. In this case, the code block is written to the appropriate part of the file marked with the `#region` comment.
+
+The optional argument of the `mdcode run` command is the name of the markdown file. If it is missing, the `README.md` file in the current directory (if it exists) is processed.
+
+This can be followed by a double dash (`--`) and then the shell command line to be executed (even a complex command, such as `for`).
+
+Alternatively, the commands to be executed can be embedded in a code block in the document. In this case, the language must be `sh` and it is necessary to name the code block with the metadata `name`. The name of the code block containing the commands can be specified with the `--name` flag (if not, the first code block containing the `sh` language and `name` metadata will be executed).
+
+Code blocks are extracted to a temporary directory. This directory will be the current directory when running the commands. The temporary directory is deleted after executing the commands (deletion can be prevented by using the `--keep` flag). Instead of a temporary directory, the name of the directory to be used can be specified with the `--dir` flag. In this case, of course, the directory is not deleted after executing the commands.
+
+
+```
+mdcode run [flags] [filename] [-- commands]
+```
+
+### Flags
+
+```
+  -d, --dir string    base directory name (default ".")
+  -h, --help          help for run
+  -k, --keep          don't remove temporary directory
+  -n, --name string   code block name contains commands
+  -q, --quiet         suppress the status output
 ```
 
 ### Global Flags
@@ -553,7 +615,7 @@ The optional argument of the `mdcode update` command is the name of the markdown
 
 
 ```
-mdcode update [filename] [flags]
+mdcode update [flags] [filename]
 ```
 
 ### Flags

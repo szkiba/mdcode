@@ -34,6 +34,8 @@ linters-settings:
           - github.com/spf13/cobra
           - github.com/gobwas/glob
           - github.com/liamg/memoryfs
+          - mvdan.cc/sh/v3/interp
+          - mvdan.cc/sh/v3/syntax
           - github.com/szkiba/mdcode/internal
         deny:
           - pkg: io/ioutil

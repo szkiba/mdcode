@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -34,7 +35,7 @@ func RootCmd() *cobra.Command {
 	opts := new(options)
 
 	cmd := &cobra.Command{ //nolint:exhaustruct
-		Use:     appname + " [filename]",
+		Use:     appname + " [flags] [filename]",
 		Short:   "Markdown code block authoring tool",
 		Long:    rootHelp,
 		Version: version,
@@ -73,11 +74,7 @@ func RootCmd() *cobra.Command {
 		`{{with .Name}}{{printf "%s" .}}{{end}}{{printf " version %s\n" .Version}}`,
 	)
 
-	flags := cmd.PersistentFlags()
-
-	flags.StringSliceVarP(&opts.file, "file", "f", []string{"?*"}, "file filter")
-	flags.StringSliceVarP(&opts.lang, "lang", "l", []string{"?*"}, "language filter")
-	flags.StringToStringVarP(&opts.meta, "meta", "m", nil, "metadata filter")
+	globalFlags(cmd, opts)
 
 	outputFlag(cmd, opts)
 
@@ -86,10 +83,19 @@ func RootCmd() *cobra.Command {
 	cmd.AddCommand(updateCmd(opts))
 	cmd.AddCommand(extractCmd(opts))
 	cmd.AddCommand(dumpCmd(opts))
+	cmd.AddCommand(runCmd(opts))
 
 	cmd.AddCommand(metadataTopic(), filteringTopic(), regionsTopic(), invisibleTopic(), outlineTopic())
 
 	return cmd
+}
+
+func globalFlags(cmd *cobra.Command, opts *options) {
+	flags := cmd.PersistentFlags()
+
+	flags.StringSliceVarP(&opts.file, "file", "f", []string{"?*"}, "file filter")
+	flags.StringSliceVarP(&opts.lang, "lang", "l", []string{"?*"}, "language filter")
+	flags.StringToStringVarP(&opts.meta, "meta", "m", nil, "metadata filter")
 }
 
 func outputFlag(cmd *cobra.Command, opts *options) {
@@ -106,11 +112,11 @@ func dirFlag(cmd *cobra.Command, opts *options) {
 
 func quietFlag(cmd *cobra.Command, opts *options) {
 	cmd.Flags().BoolVarP(&opts.quiet, "quiet", "q", false, "suppress the status output")
-
-	cobra.CheckErr(cmd.MarkFlagDirname("dir"))
 }
 
-func checkargs(_ *cobra.Command, args []string) error {
+func checkargs(cmd *cobra.Command, args []string) error {
+	_, args = script(cmd, args)
+
 	if len(args) > 1 {
 		return errTooManyArg
 	}
@@ -151,6 +157,14 @@ func source(args []string) string {
 	}
 
 	return args[0]
+}
+
+func script(cmd *cobra.Command, args []string) (string, []string) {
+	if cmd.ArgsLenAtDash() < 0 {
+		return "", args
+	}
+
+	return strings.Join(args[cmd.ArgsLenAtDash():], " "), args[:cmd.ArgsLenAtDash()]
 }
 
 const (

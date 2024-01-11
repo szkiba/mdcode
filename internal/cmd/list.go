@@ -18,7 +18,13 @@ func listRun(filename string, out io.Writer, opts *options) error {
 		return err
 	}
 
-	blocks, err := unfence(src, opts.filter)
+	blocks, err := unfence(src, func(lang string, meta mdcode.Meta) bool {
+		if isScript(lang, meta) {
+			return true
+		}
+
+		return opts.filter(lang, meta)
+	})
 	if err != nil {
 		return err
 	}
@@ -99,7 +105,7 @@ func metaKeys(blocks mdcode.Blocks) []string {
 
 	special := make(map[string]struct{})
 
-	for _, s := range []string{metaFile, metaOutline, metaRegion} {
+	for _, s := range []string{metaName, metaFile, metaOutline, metaRegion} {
 		special[s] = struct{}{}
 
 		if _, has := keyset[s]; has {
